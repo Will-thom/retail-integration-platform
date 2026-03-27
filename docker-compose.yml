@@ -1,0 +1,65 @@
+# docker-compose.yml
+# ==========================================
+# Retail Integration Platform - Compose Final
+# ==========================================
+
+services:
+  # -------------------------------
+  # BFF Java
+  # -------------------------------
+  bff:
+    build: ./bff-java
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    depends_on:
+      - order-service
+      - erp-sap
+      - payment-service
+
+  # -------------------------------
+  # Order Service Java
+  # -------------------------------
+  order-service:
+    build: ./order-service-java
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+
+  # -------------------------------
+  # ERP Adapter Java
+  # -------------------------------
+  erp-sap:
+    build: ./erp-adapter-java
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+
+  # -------------------------------
+  # Payment Service .NET
+  # -------------------------------
+  payment-service:
+    build: ./payment-service-dotnet
+    ports:
+      - "8083:8083"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:8083
+
+  # -------------------------------
+  # Tester (PowerShell)
+  # -------------------------------
+  tester:
+    image: mcr.microsoft.com/powershell:latest
+    volumes:
+      - ./scripts:/scripts           # monta a pasta scripts do host
+    working_dir: /scripts            # diretório dentro do container
+    command: pwsh ./test-retail-docker.ps1
+    depends_on:
+      - bff
+      - order-service
+      - erp-sap
+      - payment-service

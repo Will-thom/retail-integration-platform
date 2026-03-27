@@ -1,0 +1,6 @@
+@payment_service_dotnet_HostAddress = http://localhost:5159
+
+GET {{payment_service_dotnet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
