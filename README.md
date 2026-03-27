@@ -1,5 +1,6 @@
 # 🚀 Retail Integration Platform
 
+
 ![Java 21](https://img.shields.io/badge/Java-21-blue)
 ![SAP Integration](https://img.shields.io/badge/SAP-Integration-green)
 ![.NET 8](https://img.shields.io/badge/.NET-8-blue)
@@ -13,6 +14,7 @@ Autor: Francisco Silva.
 
 A Retail Integration Platform (Plataforma para Integração de Varejo) é uma plataforma de integração multi-serviços que simula um ambiente de backend moderno, distribuído e resiliente.
 
+
 Ela inclui:
 
 * BFF (Backend For Frontend) para orquestração de serviços
@@ -21,14 +23,10 @@ Ela inclui:
 * Payment Service (.NET 8) para processamento de pagamentos
 * Testes via PowerShell integrados à rede Docker
 
-![Descrição da Imagem](\docs\architecture\microservices-integration-diagram.png)
+![Descrição da Imagem](https://github.com/Will-thom/retail-integration-platform/raw/main/docs/architecture/microservices-integration-diagram.png)
 
 O projeto é perfeito para simular integrações complexas, testar comunicação entre containers e validar fluxos de pedido e pagamento.
 
-
-🧱 Estrutura do Projeto
-
-![Descrição da Imagem](\docs\architecture\project_structure.png)
 
 
 ⚙️ Tecnologias
@@ -38,6 +36,69 @@ O projeto é perfeito para simular integrações complexas, testar comunicação
 * Docker & Docker Compose
 * REST APIs internas (BFF ↔ Serviços)
 * Flexibilidade de URLs via application.properties e variáveis de ambiente
+  
+
+
+🧱 Estrutura do Projeto
+````
+retail-integration-platform/
+│
+├── .gitignore
+├── docker-compose.yml
+├── README.md
+│
+├── scripts/
+│   └── test-retail-docker.ps1
+│
+└── services/
+    │
+    ├── bff-java/
+    │   ├── Dockerfile
+    │   ├── pom.xml
+    │   └── src/
+    │       └── main/
+    │           ├── java/
+    │           │   └── com/example/bff/
+    │           │       ├── controller/
+    │           │       │   └── OrderController.java
+    │           │       └── BffApplication.java
+    │           └── resources/
+    │               └── application.properties
+    │
+    ├── order-service-java/
+    │   ├── Dockerfile
+    │   ├── pom.xml
+    │   └── src/
+    │       └── main/
+    │           ├── java/
+    │           │   └── com/example/orderservice/
+    │           │       ├── controller/
+    │           │       │   └── OrderServiceController.java
+    │           │       └── OrderServiceApplication.java
+    │           └── resources/
+    │               └── application.properties
+    │
+    ├── erp-adapter-java/
+    │   ├── Dockerfile
+    │   ├── pom.xml
+    │   └── src/
+    │       └── main/
+    │           ├── java/
+    │           │   └── com/example/erpadapter/
+    │           │       ├── controller/
+    │           │       │   └── ErpController.java
+    │           │       └── ErpAdapterApplication.java
+    │           └── resources/
+    │               └── application.properties
+    │
+    └── payment-service-dotnet/
+        ├── Dockerfile
+        ├── payment-service-dotnet.csproj
+        ├── Program.cs
+        └── Controllers/
+            └── PaymentsController.cs
+````            
+
 
 
 🐳 Docker Compose
@@ -63,6 +124,7 @@ Parar todos os containers
 docker-compose down
 
 
+
 🧪 Testes
 
 O scripts/test-retail-docker.ps1 executa:
@@ -74,6 +136,7 @@ Processamento de pagamentos via Payment Service
 Validação de respostas esperadas
 
 
+
 🔄 Fluxo de Pedido
 BFF --> Order Service --> ERP Adapter --> Payment Service
 
@@ -82,6 +145,7 @@ BFF --> Order Service --> ERP Adapter --> Payment Service
 * Order Service envia pedido para ERP Adapter
 * Opcional: Payment Service processa pagamento
 * Resposta retorna via BFF ao cliente
+
 
 
 📝 Próximos Passos / Melhorias Futuras
